@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration production && ghpages --dir=dist/portfolio/browser --branch=gh-pages --dotfiles --no-silent"
+    "deploy": "ng build --configuration production && angular-cli-ghpages --dir=dist/portfolio/browser --branch=gh-pages --cname=muhndolimy.me"
   },
   "private": true,
   "packageManager": "npm@10.9.8",
