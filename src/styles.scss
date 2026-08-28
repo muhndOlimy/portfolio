@@ -1,0 +1,140 @@
+@use "tailwindcss";
+
+/* ============================================================
+   Portfolio design tokens — Blue & White theme
+   Structure follows the Soft Studio guide (surfaces / text /
+   accent / lines) but remapped to a blue-and-white palette.
+   Exposed as Tailwind theme tokens: bg-page, text-ink,
+   text-accent, font-serif, etc. — semantic, colour-agnostic
+   names so the palette can change without renaming utilities.
+   ============================================================ */
+@theme {
+  /* Surfaces */
+  --color-page: #f4f7fb; /* body background — cool white */
+  --color-card: #ffffff; /* cards, nav pill */
+  --color-field: #f7faff; /* input background */
+  --color-dark: #0f1e3a; /* contact panel, stat tile — deep navy */
+
+  /* Text */
+  --color-ink: #0f1e3a; /* headings, primary text — navy */
+  --color-body: #33415c; /* paragraphs, chip text — slate blue */
+  --color-muted: #5b6b85; /* labels, captions */
+  --color-subtle: #8aa0c2; /* section eyebrows, meta */
+  --color-faint: #9aabc5; /* footer, placeholder text */
+  --color-ondark: #a9bce0; /* body text on the navy panel */
+
+  /* Accent — semantic names (blue palette) */
+  --color-accent: #2563eb; /* links, dates — primary blue */
+  --color-accent-soft: #e6effd; /* tinted badge / pill background */
+  --color-accent-strong: #3b82f6; /* status dot, bright accents */
+  --color-accent-deep: #1d4ed8; /* link / button hover — deeper blue */
+
+  /* Lines & fills */
+  --color-chip: #eaf1fb; /* tags, secondary button */
+  --color-chip-hover: #d8e4f7; /* chip hover, borders */
+  --color-error-fill: #fbeeea; /* form error background */
+  --color-error-text: #a52d0a; /* form error message */
+
+  /* Border defaults */
+  --color-line: #dbe6f5;
+
+  /* Typography */
+  --font-display: "Outfit", sans-serif;
+  --font-serif: "Source Serif 4", serif;
+
+  /* Radius */
+  --radius-chip: 9px;
+}
+
+/* ---- base ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Material Symbols — inline icon defaults */
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+
+/* Scroll reveal — fade + rise. Toggled by RevealDirective. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance — plays once on load, staggered via --i. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  opacity: 0;
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Soft hover lift for cards. */
+.hover-lift {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px -12px rgba(15, 30, 58, 0.18);
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-revealed,
+  .animate-rise,
+  .hover-lift {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Placeholder gradients — blue tint */
+.placeholder-portrait {
+  background: linear-gradient(155deg, #e5eefb, #d5e3f7);
+}
+.placeholder-project {
+  background: linear-gradient(145deg, #e8f0fc, #d7e4f6);
+}
