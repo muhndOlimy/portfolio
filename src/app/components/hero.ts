@@ -32,7 +32,7 @@ import { profile } from '../content/portfolio.data';
                 <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
               </a>
               <a
-                href="/Mohanad%20Olimy%20Resume.pdf"
+                href="/Mohanad%20Olimy-Resume.pdf"
                 download="Mohanad-Olimy-Resume.pdf"
                 class="inline-flex items-center gap-1.5 rounded-full bg-chip px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-chip-hover"
               >
