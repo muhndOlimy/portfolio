@@ -4,9 +4,11 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   Renderer2,
   inject,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * Scroll-reveal directive. Adds `is-revealed` to the host once it scrolls
@@ -24,20 +26,22 @@ export class RevealDirective implements OnInit, OnDestroy {
 
   private readonly el = inject(ElementRef<HTMLElement>);
   private readonly renderer = inject(Renderer2);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private observer?: IntersectionObserver;
 
   ngOnInit(): void {
     const host = this.el.nativeElement as HTMLElement;
+
+    // On the server (prerender) leave content visible — no `.reveal` class,
+    // so crawlers and no-JS users see it, and there's no hydration flash.
+    if (!this.isBrowser || typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
     this.renderer.addClass(host, 'reveal');
 
     if (this.revealDelay) {
       this.renderer.setStyle(host, 'transition-delay', `${this.revealDelay}ms`);
-    }
-
-    // No IntersectionObserver (SSR / very old browsers) → show immediately.
-    if (typeof IntersectionObserver === 'undefined') {
-      this.renderer.addClass(host, 'is-revealed');
-      return;
     }
 
     this.observer = new IntersectionObserver(
